@@ -5,8 +5,7 @@ third party app names.
 VFPTweetAPI is MS Visual Foxpro implementation of the twitter API. It's intended both for usage in native FoxPro and as COM Server for use in any COM/OLE enabled programming language.
 
 ## License
-VFPTwitterAPI is released under the GNU Library General Public License (LGPL).
-See http://vfptweetapi.codeplex.com/license
+VFPTwitterAPI is released under the GNU Library General Public License (LGPL). See license.md.
 
 ## Instructions
 This version of the VFPTweetAPI contains OAuth authentication and has its own consumer key and consumer secret, which Twitter provides. You can use it right away, just be warned, that you share this key and secret with all other VFPTweetAPI users. This means you share a limited amount of 100 requests per hour with other developers.
