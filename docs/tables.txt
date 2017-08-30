@@ -1,0 +1,86 @@
+This is a description of the tables, which are used to persist twitter data by the VFPTweetAPI.
+Most important the identities in tabIdentities - saving the login info goten by an oAuth authentication process, which are valid until access is revoked by a user.
+Then of course all other user information about the VFPTweetAPI (or your app built on top of it) user, other users (friends and followers).
+Last not least of course all statuses (tweets) and direct messages and all favorited statuses.
+
+tabUsers
+(ID                              N(15)  ;   &&   User ID - Primary key of the user as given by Twitter.
+,Name                            M      ;   &&   User Name - Full name as seen in the profile of a user.
+,Screen_Name                     M      ;   &&   Screen Name - Twitter user name as seen in Tweets.
+,Location                        M      ;   &&   Location - State, City, or whatever a user entered as his/her location.
+,Description                     M      ;   &&   Description - the Bio of a user.
+,Profile_Image_URL               M      ;   &&   Profile Image URL - typically a URL to http://a3.twimg.com/profile_images.
+,URL                             M      ;   &&   URL - A homepage/website of the user besides Twitter.
+,Protected                       L      ;   &&   Protected - specifies, if a user account is protected and tweets of him can only be seen by allowed users.
+,Followers_Count                 N(12)  ;   &&   Followers Count - the number of users following this user (redundant info, also the count of tabFollowers for this user).
+,Profile_Background_Color        C( 6)  ;   &&   Profile... several properties in regard of the user profile homepage design of the user. Background color.
+,Profile_Text_Color              C( 6)  ;   &&   Text color
+,Profile_Link_Color              C( 6)  ;   &&   Link color
+,Profile_Sidebar_Fill_Color      C( 6)  ;   &&   Sidebar Fill color
+,Profile_Sidebar_Border_Color    C( 6)  ;   &&   Sidebar border color
+,Friends_Count                   N(12)  ;   &&   Friends Count - the number of friends the user follows (redundant info, also the count of tabFriends for this user).  
+,Created_At                      C(40)  ;   &&   created at - date, at which the user account was created.
+,Favourites_Count                N(12)  ;   &&   Favorites Count - Count of Tweets this user has 'faved'... has added to his favorite tweets. Alse see www.favstar.fm.
+,UTC_Offset                      N(10)  ;   &&   UTC Offset - Bias of the user's time zone in reference to the UTC time zone.
+,Time_Zone                       C(40)  ;   &&   Time_Zone - time zone of the user.
+,Profile_Background_Image_Url    M      ;   &&   Profile properties... Background image url - typically a URL to http://a3.twimg.com/profile_background_images.
+,Profile_Background_Tile         L      ;   &&   Background Tile - if .t., the background image is tiled, repeated.
+,Statuses_Count                  N(12)  ;   &&   Statuses Count - Number of Statuses/Tweets the user has posted.
+,Notifications                   L      ;   &&   Notifications - .T. if a user setup a mobile device to receive Tweets on it.
+,Geo_Enabled                     L      ;   &&   Geo Enabled - .T., if a user is geo enabled and his geo location is available.
+,Verified                        L      ;   &&   Verified - .T. if a user is verified, eg a verified celebrity.
+,Last_Changed                    T      ;   &&   Last Changed - the lasst time, this record was changed (or created).
+)
+
+tabIdentities
+(ID                              N(15)  ;   &&   Identity ID - Primary key of an identity.   
+,User_ID                         N(15)  ;   &&   User ID - User ID of the identity, a user using the tweet api.
+,Pin                             C( 6)  ;   &&   Pin - user credentials: The pin number used to authenticate via oAuth.
+,Access_Token                    M      ;   &&   Access_Token - the access token of the user from it's oAuth authentication.
+,Access_Token_Secret             M      ;   &&   Access_Token_Secret - the access token secret of the user from it's oAuth authentication.
+,Last_Changed                    T      ;   &&   Last Changed - the lasst time, this record was changed (or created).
+)
+
+tabFriends
+(ID                              N(15)  ;   &&   ID - Primary key of the record.
+,User_ID                         N(15)  ;   &&   User ID of the user having this friend.
+,Friend_ID                       N(15)  ;   &&   Friend ID - User ID of the friend.
+,Last_Changed                    T      ;   &&   Last Changed - the lasst time, this record was changed (or created).
+)
+
+tabFollowers
+(ID                              N(15)  ;   &&   ID - Primary key of the record.
+,User_ID                         N(15)  ;   &&   User ID of the user having this follower.
+,Follower_ID                     N(15)  ;   &&   Follower ID - User ID of the follower.
+,Last_Changed                    T      ;   &&   Last Changed - the lasst time, this record was changed (or created).
+)
+
+tabStatuses
+(ID                              N(15)  ;   &&   ID - Status ID, primary key of the record.
+,Text                            M      ;   &&   Text - Text of the status/tweet.
+,Created_At                      C(40)  ;   &&   Created At - Timestamp of when the status was sent.
+,Sender_ID                       N(15)  ;   &&   Sender ID - User ID of the sender of the status.
+,Source                          M      ;   &&   Source - Source application of the status (web = Twitter website).
+,Truncated                       L      ;   &&   Truncated - If .T. the status was longer than 140 characters and is truncated.
+,In_Reply_To_Status_ID           N(15)  ;   &&   In Reply To Status ID - if set, the status is in reply to this state.
+,In_Reply_To_User_ID             N(15)  ;   &&   In Reply To User ID - if set, the status is in reply to this user.
+,Favorited                       L      ;   &&   Favorited - if .T. this status is favorited.
+,Geo                             M      ;   &&   Geo - the geo location from which this status was sent.
+,LastChanged                     T      ;   &&   Last Changed - the lasst time, this record was changed (or created).
+)
+
+tabDirectMessages
+(ID                              N(15)  ;   &&   ID - Direct Message ID, primary key of the record.
+,Text                            M      ;   &&   Text - Text of the direct message.
+,Created_At                      C(40)  ;   &&   Created At - Timestamp of when the direct message was sent.
+,Sender_ID                       N(15)  ;   &&   Sender ID - User ID of the sender of the direct message.
+,Recipient_ID                    N(15)  ;   &&   Recipient ID - User ID of the receipient of the direct message.
+,LastChanged                     T      ;   &&   Last Changed - the lasst time, this record was changed (or created).
+)
+
+tabFavoritedststatuses
+(ID                              N(15)  ;   &&   ID - Primary key of the record.
+,Status_ID                       N(15)  ;   &&   Status ID - Status, which is favorited.
+,Faved_By_ID                     N(15)  ;   &&   Faved By ID - USer ID of the user having favorited the status.
+,LastChanged                     T      ;   &&   Last Changed - the lasst time, this record was changed (or created).
+)
